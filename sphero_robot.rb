@@ -14,7 +14,7 @@ class SpheroRobot < Artoo::Robot
   end
 
   def roll speed, heading
-    sphero.roll = speed, heading
+    sphero.roll(speed, heading)
   end
 
 end

@@ -23,7 +23,7 @@ class XboxJoystick < Artoo::Robot
       # turn off sphero back led
       sphero_bot.calibration_led(0x00)
     }
-    #on controller, :joystick_0 => :joystick_action
+    on controller, :joystick_0 => :joystick_action
   end
 
   private 
@@ -40,9 +40,7 @@ class XboxJoystick < Artoo::Robot
     if calibrating == 1
       sphero_bot.calibrate(theta)
     else
-      if r > 0
-        sphero_bot.roll(r, theta)
-      end
+      sphero_bot.roll(r, theta)
     end
   end
 
