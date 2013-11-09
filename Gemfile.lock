@@ -1,0 +1,81 @@
+GIT
+  remote: git://github.com/mikejford/artoo-joystick
+  revision: 5ae23cd07c3447f72480f980aae3d7554eaf25c0
+  specs:
+    artoo-joystick (0.3.0)
+      artoo (>= 1.4.0)
+      hybridgroup-ruby-sdl-ffi
+
+GIT
+  remote: git://github.com/mikejford/artoo-sphero
+  revision: a9e3543c7dca60990bba89586f129396283d0c08
+  specs:
+    artoo-sphero (1.2.0)
+      artoo (>= 1.4.0)
+      sphero (>= 1.4.1)
+
+GIT
+  remote: git://github.com/mikejford/ruby-sdl-ffi
+  revision: 3a8e6d84d49b334eb298ee4a9b7012d47b070df5
+  specs:
+    hybridgroup-ruby-sdl-ffi (0.4.1)
+      nice-ffi (>= 0.2)
+
+GIT
+  remote: git://github.com/mikejford/sphero
+  revision: 64fbfcb30838fe9b800578411a916461ef6d5d87
+  specs:
+    sphero (1.4.1.20130725165742)
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    artoo (1.4.1)
+      celluloid (~> 0.15.0)
+      celluloid-io (~> 0.15.0)
+      multi_json (~> 1.6)
+      pry (~> 0.9)
+      rake
+      reel (~> 0.4.0)
+      thor (~> 0.18.1)
+    celluloid (0.15.2)
+      timers (~> 1.1.0)
+    celluloid-io (0.15.0)
+      celluloid (>= 0.15.0)
+      nio4r (>= 0.5.0)
+    coderay (1.0.9)
+    ffi (1.9.3)
+    http (0.5.0)
+      http_parser.rb
+    http_parser.rb (0.6.0.beta.2)
+    method_source (0.8.2)
+    multi_json (1.8.2)
+    nice-ffi (0.4)
+      ffi (>= 0.5.0)
+    nio4r (0.5.0)
+    pry (0.9.12.2)
+      coderay (~> 1.0.5)
+      method_source (~> 0.8)
+      slop (~> 3.4)
+    rake (10.1.0)
+    reel (0.4.0)
+      celluloid (>= 0.15.1)
+      celluloid-io (>= 0.15.0)
+      http (>= 0.5.0)
+      http_parser.rb (>= 0.6.0.beta.2)
+      websocket_parser (>= 0.1.4)
+    slop (3.4.6)
+    thor (0.18.1)
+    timers (1.1.0)
+    websocket_parser (0.1.4)
+      http
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  artoo
+  artoo-joystick!
+  artoo-sphero!
+  hybridgroup-ruby-sdl-ffi!
+  sphero!

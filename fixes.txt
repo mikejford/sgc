@@ -1,0 +1,9 @@
+https://github.com/xrs1133/ruby-sdl-ffi/commit/0b721ac4659b4c08cda5aa2f418561a8a311e85b
+http://www.macgamepads.com/gamepads/xbox360/index.html
+
+Joystick:
+  Create button_up events
+
+Sphero:
+  Add calibration support
+  Add back led support
