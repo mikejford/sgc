@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/mikejford/artoo-joystick
-  revision: 5ae23cd07c3447f72480f980aae3d7554eaf25c0
+  revision: f08c28b74d276085179fe187e6f9a453f4ff5ecd
   specs:
     artoo-joystick (0.3.0)
       artoo (>= 1.4.0)
@@ -43,7 +43,7 @@ GEM
     celluloid-io (0.15.0)
       celluloid (>= 0.15.0)
       nio4r (>= 0.5.0)
-    coderay (1.0.9)
+    coderay (1.1.0)
     ffi (1.9.3)
     http (0.5.0)
       http_parser.rb
@@ -53,8 +53,8 @@ GEM
     nice-ffi (0.4)
       ffi (>= 0.5.0)
     nio4r (0.5.0)
-    pry (0.9.12.2)
-      coderay (~> 1.0.5)
+    pry (0.9.12.3)
+      coderay (~> 1.0)
       method_source (~> 0.8)
       slop (~> 3.4)
     rake (10.1.0)
