@@ -9,7 +9,7 @@ class XboxJoystick < Artoo::Robot
   connection :joystick, :adaptor => :joystick
   device :controller, :driver => :xbox360, :connection => :joystick, :interval => 0.1, :usb_driver => :tattiebogle
 
-  def initialize params={}
+  def initialize(params={})
     @sphero_bot = params[:sphero]
     super params
   end
@@ -28,11 +28,11 @@ class XboxJoystick < Artoo::Robot
 
   private 
 
-  def joystick_action *value
+  def joystick_action(*value)
     x = value[1][:x]
     y = value[1][:y]
 
-    calibrating = controller.button_values[controller.button_map.key(:rb)]
+    calibrating = controller.currently_pressed?(:rb)
 
     r = speed_value x, y
     theta = heading_value x, y
@@ -44,7 +44,7 @@ class XboxJoystick < Artoo::Robot
     end
   end
 
-  def speed_value x, y
+  def speed_value(x, y)
     num = Math.sqrt(x**2 + y**2)
 
     if num > MAX_AXIS_RADIUS
@@ -56,7 +56,7 @@ class XboxJoystick < Artoo::Robot
     (num * 255 / MAX_AXIS_RADIUS).to_i
   end
 
-  def heading_value x, y
+  def heading_value(x, y)
     (Math.atan2(x, y) * (180.0 / Math::PI) - 180.0).abs.to_i
   end
 
