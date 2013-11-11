@@ -3,6 +3,7 @@ http://www.macgamepads.com/gamepads/xbox360/index.html
 
 Joystick:
   Create button_up events
+  Add currently_pressed? command
 
 Sphero:
   Add calibration support
