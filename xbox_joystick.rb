@@ -1,7 +1,6 @@
 require 'artoo/robot'
 
 class XboxJoystick < Artoo::Robot
-
   MAX_AXIS_RADIUS = 32768
 
   attr_reader :sphero_bot
@@ -32,15 +31,13 @@ class XboxJoystick < Artoo::Robot
     x = value[1][:x]
     y = value[1][:y]
 
-    calibrating = controller.currently_pressed?(:rb)
+    speed = speed_value x, y
+    heading = heading_value x, y
 
-    r = speed_value x, y
-    theta = heading_value x, y
-
-    if calibrating == 1
-      sphero_bot.calibrate(theta)
+    if controller.currently_pressed?(:rb) == 1
+      sphero_bot.calibrate(heading)
     else
-      sphero_bot.roll(r, theta)
+      sphero_bot.roll(speed, heading)
     end
   end
 
@@ -48,8 +45,10 @@ class XboxJoystick < Artoo::Robot
     num = Math.sqrt(x**2 + y**2)
 
     if num > MAX_AXIS_RADIUS
+      # set a limit on upper speed to 255
       num = MAX_AXIS_RADIUS
     elsif num < MAX_AXIS_RADIUS * 0.2
+      # set a limit on lower speed to roughly 50
       num = 0
     end
 
