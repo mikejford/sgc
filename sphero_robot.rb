@@ -3,7 +3,7 @@ require 'artoo/robot'
 class SpheroRobot < Artoo::Robot
 
   connection :sphero, :adaptor => :sphero, :port => '127.0.0.1:4560'
-  device :sphero, :driver => :sphero, :interval => 0.1
+  device :sphero, :driver => :sphero
 
   def calibration_led(led_brightness)
     sphero.back_led_output = led_brightness
