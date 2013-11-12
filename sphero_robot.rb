@@ -26,7 +26,15 @@ class SpheroRobot < Artoo::Robot
 
   def roll(speed, heading)
     do_action do
+      puts "Sphero rolling #{speed}, #{heading}"
       sphero.roll(speed, heading)
+    end
+  end
+
+  def color(rgb_ary)
+    do_action do
+      puts "Sphero color #{rgb_ary}"
+      sphero.set_color(*rgb_ary)
     end
   end
 
@@ -34,9 +42,11 @@ class SpheroRobot < Artoo::Robot
 
   def do_action
     if @lock.try_lock
-      yield
-      @lock.unlock
+      begin
+        yield
+      ensure
+        @lock.unlock
+      end
     end
   end
 end
-
