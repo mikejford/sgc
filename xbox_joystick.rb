@@ -1,32 +1,54 @@
 require 'artoo/robot'
+require_relative 'command'
 
 class XboxJoystick < Artoo::Robot
   MAX_AXIS_RADIUS = 32768
 
-  attr_reader :sphero_bot
+  attr_reader :command_q, :last_heading, :last_speed, :j1_active
 
   connection :joystick, :adaptor => :joystick
   device :controller, :driver => :xbox360, :connection => :joystick, :interval => 0.1, :usb_driver => :tattiebogle
 
   def initialize(params={})
-    @sphero_bot = params[:sphero]
+    @command_q = params[:command_queue]
+    @last_heading = nil
+    @last_speed = 0
+    @j1_active = false
     super params
   end
 
   work do
-    on controller, :button_rb => proc { |*value|
-      # turn on sphero back led
-      sphero_bot.calibration_led(0xff)
-    }
-    on controller, :button_up_rb => proc { |*value|
-      # turn off sphero back led
-      sphero_bot.calibration_led(0x00)
-    }
+    on controller, :button_rb => :button_rb_action
+    on controller, :button_up_rb => :button_up_rb_action
+    on controller, :button_j1 => :button_j1_action
     on controller, :joystick_0 => :joystick0_action
     on controller, :joystick_1 => :joystick1_action
   end
 
   private 
+
+  def button_rb_action(*value)
+    # turn on sphero back led
+    command_q.add(Command::ButtonCommand.new({
+      :cmd => :calibration_led= ,
+      :args => 0xff
+    }))
+  end
+
+  def button_up_rb_action(*value)
+    # turn off sphero back led
+    unless last_heading.nil?
+      command_q.add(Command::ButtonCommand.new({
+        :cmd => :calibrate ,
+        :args => last_heading
+      }))
+      @last_heading = nil
+    end
+  end
+
+  def button_j1_action(*value)
+    @j1_active = !j1_active
+  end
 
   def joystick0_action(*value)
     x = value[1][:x]
@@ -35,21 +57,44 @@ class XboxJoystick < Artoo::Robot
     speed = speed_value x, y
     heading = heading_value x, y
 
-    if controller.currently_pressed?(:rb) == 1
-      sphero_bot.calibrate(heading)
-    else
-      sphero_bot.roll(speed, heading)
+    add_cmd = true
+    if last_speed == 0 && speed == last_speed
+      add_cmd = false
     end
+
+    if controller.currently_pressed?(:rb) == 1
+      # capture last heading value for calibration
+      @last_heading = heading
+
+      # set roll speed to 0 while calibrating
+      speed = 0
+
+      # add all calibration commands
+      add_cmd = true
+    end
+
+    command_q.add(Command::JoystickCommand.new({
+      :cmd => :roll ,
+      :args => [ speed, heading ]
+    })) if add_cmd
+
+    @last_speed = speed
   end
 
   def joystick1_action(*value)
-    x = value[1][:x]
-    y = value[1][:y]
+    if j1_active
+      x = value[1][:x]
+      y = value[1][:y]
 
-    hue = hue_value x, y
-    saturation = saturation_value x, y
+      hue = hue_value x, y
+      saturation = saturation_value x, y
 
-    sphero_bot.color(hsv_to_rgb(hue, saturation, 1))
+      command_q.add(Command::JoystickCommand.new({
+        :cmd => :color= ,
+        :args => hsv_to_rgb( hue, saturation, 1 ) ,
+        :priority => 3
+      }))
+    end
   end
 
   def speed_value(x, y)

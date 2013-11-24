@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/mikejford/artoo-joystick
-  revision: f08c28b74d276085179fe187e6f9a453f4ff5ecd
+  revision: 04e6a42e583be178276dfc5810fbdd9d33a0da5a
   specs:
     artoo-joystick (0.3.0)
       artoo (>= 1.4.0)
@@ -8,7 +8,7 @@ GIT
 
 GIT
   remote: git://github.com/mikejford/artoo-sphero
-  revision: a9e3543c7dca60990bba89586f129396283d0c08
+  revision: 4f3a8c2d9aed693664b45c073e85072e783a8560
   specs:
     artoo-sphero (1.2.0)
       artoo (>= 1.4.0)
@@ -30,6 +30,7 @@ GIT
 GEM
   remote: https://rubygems.org/
   specs:
+    algorithms (0.6.1)
     artoo (1.4.1)
       celluloid (~> 0.15.0)
       celluloid-io (~> 0.15.0)
@@ -53,7 +54,7 @@ GEM
     nice-ffi (0.4)
       ffi (>= 0.5.0)
     nio4r (0.5.0)
-    pry (0.9.12.3)
+    pry (0.9.12.4)
       coderay (~> 1.0)
       method_source (~> 0.8)
       slop (~> 3.4)
@@ -64,7 +65,7 @@ GEM
       http (>= 0.5.0)
       http_parser.rb (>= 0.6.0.beta.2)
       websocket_parser (>= 0.1.4)
-    slop (3.4.6)
+    slop (3.4.7)
     thor (0.18.1)
     timers (1.1.0)
     websocket_parser (0.1.4)
@@ -74,6 +75,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  algorithms (~> 0.6.1)
   artoo
   artoo-joystick!
   artoo-sphero!

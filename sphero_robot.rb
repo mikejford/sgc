@@ -2,51 +2,39 @@ require 'artoo/robot'
 
 class SpheroRobot < Artoo::Robot
 
+  attr_reader :command_q
+
   connection :sphero, :adaptor => :sphero, :port => '127.0.0.1:4560'
   device :sphero, :driver => :sphero
 
   def initialize(params={})
-    @lock = Mutex.new
+    @command_q = params[:command_queue]
     super params
   end
 
-  def calibration_led(led_brightness)
-    do_action do
-      puts "Sphero brightness #{led_brightness}"
-      sphero.back_led_output = led_brightness
+  work do
+    while true
+      unless command_q.empty?
+        command = command_q.next
+        self.send(command.cmd, *command.args)
+      end
     end
+  end
+
+  def calibration_led=(led_brightness)
+    sphero.back_led_output = led_brightness
   end
 
   def calibrate(heading)
-    do_action do
-      puts "Sphero heading #{heading}"
-      sphero.heading = heading
-    end
+    sphero.heading = heading
+    sphero.back_led_output = 0x00
   end
 
   def roll(speed, heading)
-    do_action do
-      puts "Sphero rolling #{speed}, #{heading}"
-      sphero.roll(speed, heading)
-    end
+    sphero.roll(speed, heading)
   end
 
-  def color(rgb_ary)
-    do_action do
-      puts "Sphero color #{rgb_ary}"
-      sphero.set_color(*rgb_ary)
-    end
-  end
-
-  private
-
-  def do_action
-    if @lock.try_lock
-      begin
-        yield
-      ensure
-        @lock.unlock
-      end
-    end
+  def color=(*rgb_ary)
+    sphero.set_color(*rgb_ary)
   end
 end
