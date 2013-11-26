@@ -15,6 +15,32 @@ class ControllerJoystick < Artoo::Robot
     super params
   end
 
+  class PS3 < ControllerJoystick
+    connection :ps3_joystick, :adaptor => :joystick
+    device :ps3_controller, :driver => :ps3, :connection => :ps3_joystick, :interval=> 0.1, :usb_driver => :osx
+
+    work do
+      on ps3_controller, :button_r1 => :button_rb_action
+      on ps3_controller, :button_up_r1 => :button_up_rb_action
+      on ps3_controller, :button_j1 => :button_j1_action
+      on ps3_controller, :joystick_0 => :joystick0_action
+      on ps3_controller, :joystick_1 => :joystick1_action
+    end
+  end
+
+  class XBox360 < ControllerJoystick
+    connection :xbox360_joystick, :adaptor => :joystick
+    device :xbox360_controller, :driver => :xbox360, :connection => :xbox360_joystick, :interval=> 0.1, :usb_driver => :osx
+
+    work do
+      on xbox360_controller, :button_rb => :button_rb_action
+      on xbox360_controller, :button_up_rb => :button_up_rb_action
+      on xbox360_controller, :button_j1 => :button_j1_action
+      on xbox360_controller, :joystick_0 => :joystick0_action
+      on xbox360_controller, :joystick_1 => :joystick1_action
+    end
+  end
+
   private 
 
   def button_rb_action(*value)
@@ -55,8 +81,8 @@ class ControllerJoystick < Artoo::Robot
     if last_speed == 0 && speed == last_speed
       add_cmd = false
     end
-    
-    if calibrating == 1
+
+    if calibrating
       # capture last heading value for calibration
       @last_heading = heading
 
@@ -150,5 +176,4 @@ class ControllerJoystick < Artoo::Robot
     r, g, b = v, p, q if h_i == 5
     [(r * 255).to_i, (g * 255).to_i, (b * 255).to_i]
   end
-
 end
