@@ -4,7 +4,7 @@ class SpheroRobot < Artoo::Robot
 
   attr_reader :command_q
 
-  connection :sphero, :adaptor => :sphero, :port => '127.0.0.1:4560'
+  connection :sphero, :adaptor => :sphero
   device :sphero, :driver => :sphero
 
   def initialize(params={})

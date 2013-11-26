@@ -1,33 +1,24 @@
 require 'artoo/robot'
 require_relative 'command'
 
-class XboxJoystick < Artoo::Robot
+class ControllerJoystick < Artoo::Robot
   MAX_AXIS_RADIUS = 32768
 
-  attr_reader :command_q, :last_heading, :last_speed, :j1_active
-
-  connection :joystick, :adaptor => :joystick
-  device :controller, :driver => :xbox360, :connection => :joystick, :interval => 0.1, :usb_driver => :osx
+  attr_reader :command_q, :calibrating, :last_heading, :last_speed, :j1_active
 
   def initialize(params={})
     @command_q = params[:command_queue]
+    @calibrating = false
     @last_heading = nil
     @last_speed = 0
     @j1_active = false
     super params
   end
 
-  work do
-    on controller, :button_rb => :button_rb_action
-    on controller, :button_up_rb => :button_up_rb_action
-    on controller, :button_j1 => :button_j1_action
-    on controller, :joystick_0 => :joystick0_action
-    on controller, :joystick_1 => :joystick1_action
-  end
-
   private 
 
   def button_rb_action(*value)
+    @calibrating = true
     # turn on sphero back led
     command_q.add(Command::ButtonCommand.new({
       :cmd => :calibration_led= ,
@@ -36,6 +27,7 @@ class XboxJoystick < Artoo::Robot
   end
 
   def button_up_rb_action(*value)
+    @calibrating = false
     # turn off sphero back led
     unless last_heading.nil?
       command_q.add(Command::ButtonCommand.new({
@@ -47,10 +39,12 @@ class XboxJoystick < Artoo::Robot
   end
 
   def button_j1_action(*value)
+    # Toggle joystick1_action state
     @j1_active = !j1_active
   end
 
   def joystick0_action(*value)
+    # Use joystick0 to control motion/calibration
     x = value[1][:x]
     y = value[1][:y]
 
@@ -61,8 +55,8 @@ class XboxJoystick < Artoo::Robot
     if last_speed == 0 && speed == last_speed
       add_cmd = false
     end
-
-    if controller.currently_pressed?(:rb) == 1
+    
+    if calibrating == 1
       # capture last heading value for calibration
       @last_heading = heading
 
@@ -82,6 +76,7 @@ class XboxJoystick < Artoo::Robot
   end
 
   def joystick1_action(*value)
+    # Use joystick1 to control color setting
     if j1_active
       x = value[1][:x]
       y = value[1][:y]

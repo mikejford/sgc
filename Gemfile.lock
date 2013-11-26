@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/mikejford/artoo-joystick
-  revision: 04e6a42e583be178276dfc5810fbdd9d33a0da5a
+  revision: 49c0792238b2ef67aaad8031b2e166d775e14afd
   specs:
     artoo-joystick (0.3.0)
       artoo (>= 1.4.0)
