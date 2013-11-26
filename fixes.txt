@@ -4,7 +4,14 @@ http://www.macgamepads.com/gamepads/xbox360/index.html
 Joystick:
   Create button_up events
   Add currently_pressed? command
+  Fix button maps and axis maps
 
 Sphero:
   Add calibration support
   Add back led support
+
+SXB:
+  Add PS3 support 
+  Change initialization for sphero to allow user supplied port
+  Refactor / cleanup command queue code
+  Add sphero roll offsetting?

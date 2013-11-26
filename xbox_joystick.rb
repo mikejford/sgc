@@ -7,7 +7,7 @@ class XboxJoystick < Artoo::Robot
   attr_reader :command_q, :last_heading, :last_speed, :j1_active
 
   connection :joystick, :adaptor => :joystick
-  device :controller, :driver => :xbox360, :connection => :joystick, :interval => 0.1, :usb_driver => :tattiebogle
+  device :controller, :driver => :xbox360, :connection => :joystick, :interval => 0.1, :usb_driver => :osx
 
   def initialize(params={})
     @command_q = params[:command_queue]
