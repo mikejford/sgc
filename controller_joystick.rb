@@ -30,7 +30,7 @@ class ControllerJoystick < Artoo::Robot
 
   class XBox360 < ControllerJoystick
     connection :xbox360_joystick, :adaptor => :joystick
-    device :xbox360_controller, :driver => :xbox360, :connection => :xbox360_joystick, :interval=> 0.1, :usb_driver => :osx
+    device :xbox360_controller, :driver => :xbox360, :connection => :xbox360_joystick, :interval=> 0.1
 
     work do
       on xbox360_controller, :button_rb => :button_rb_action
